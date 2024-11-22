@@ -6,8 +6,12 @@ class Grupo:
     def __init__(self, grupo="grupo predeterminado", asignaturas=None, *estudiantes):
         self._grupo = grupo
         self._asignaturas = asignaturas if asignaturas is not None else []
-        # Aplanar la lista de estudiantes si se proporciona
-        self.listadoAlumnos = list(estudiantes) if estudiantes else []
+        self.listadoAlumnos = []
+        for estudiante in estudiantes:
+            if isinstance(estudiante, list):
+                self.listadoAlumnos.extend(estudiante)
+            else:
+                self.listadoAlumnos.append(estudiante)
 
     def listadoAsignaturas(self, **kwargs):
         for x in kwargs.values():
@@ -16,9 +20,9 @@ class Grupo:
     def agregarAlumno(self, alumno, lista=None):
         if lista is None:
             lista = []
-        lista.append(alumno)  # Agregar el alumno al final de la lista temporal
+        lista.append(alumno)  
         for estudiante in lista:
-            if estudiante not in self.listadoAlumnos:  # Evitar duplicados
+            if estudiante not in self.listadoAlumnos: 
                 self.listadoAlumnos.append(estudiante)
 
     def __str__(self):
